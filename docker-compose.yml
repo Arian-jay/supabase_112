@@ -1,0 +1,29 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - SUPABASE_URL=https://lyqofmbdilguspjgyvcz.supabase.co
+      - SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx5cW9mbWJkaWxndXNwamd5dmN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg0NzAzNDcsImV4cCI6MjA2NDA0NjM0N30.vZvgkS1KJgelwjvxf5MJJDWiJkY4944nhncHfD4HE_w
+    volumes:
+      - ./backend:/app
+    networks:
+      - todo-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - backend
+    networks:
+      - todo-network
+
+networks:
+  todo-network:
+    driver: bridge
